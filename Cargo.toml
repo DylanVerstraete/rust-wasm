@@ -7,12 +7,6 @@ edition = "2018"
 [lib]
 crate-type = ["cdylib", "rlib"]
 
-[dependencies]
-wasm-bindgen = "0.2.63"
-getrandom = { version = "0.2.3", features = ["js"] }
-substrate-api-client = { git = "https://github.com/scs/substrate-api-client", rev = "a08d8ae8017535051975f5a7ff20bd93d35e4eb3" }
-
-
 # `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
 # compared to the default allocator's ~10K. It is slower than the default
 # allocator, however.
@@ -20,5 +14,45 @@ substrate-api-client = { git = "https://github.com/scs/substrate-api-client", re
 # Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
 wee_alloc = { version = "0.4.5", optional = true }
 
+# alias "parity-scale-code" to "codec"
+[dependencies.codec]
+default-features = false
+features = ['derive']
+package = 'parity-scale-codec'
+version = '2.0.0'
+
+[dependencies]
+wasm-bindgen = "0.2.63"
+balances = { package = 'pallet-balances', version = '3.0.0', default-features = false }
+frame-support = { version = '3.0.0', default-features = false }
+frame-system = { version = '3.0.0', default-features = false }
+sp-core = { version = '3.0.0', default-features = false }
+sp-runtime = { version = '3.0.0', default-features = false }
+sp-std = { version = '3.0.0', default-features = false }
+sp-storage = { version = '3.0.0', default-features = false }
+pallet-timestamp = { version = '3.0.0', default-features = false }
+sp-io = { version = '3.0.0', default-features = false }
+hex = { version = "0.4", default-features = false }
+lite-json = { version = "0.1.3", default-features = false }
+getrandom = { version = "0.2", features = ["js"] }
+
 [dev-dependencies]
+sp-core = { version = '3.0.0', default-features = false }
+sp-io = { version = '3.0.0', default-features = false }
+hex-literal = "0.3.1"
 wasm-bindgen-test = "0.3.13"
+
+[features]
+default = ['std']
+std = [
+	'balances/std',
+	'frame-support/std',
+	'frame-system/std',
+	'sp-core/std',
+	'sp-runtime/std',
+	'sp-std/std',
+	'sp-storage/std',
+    'pallet-timestamp/std',
+	'sp-io/std',
+	'lite-json/std',
+]
